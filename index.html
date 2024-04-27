@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pricing Calculator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bernard+MT+Condensed&display=swap');
+
+  body { 
+    font-family: 'Bernard MT Condensed', sans-serif;
+    padding: 20px; 
+    background-color: #B2A4D4;
+    margin: 0;
+  }
+  .container { 
+    background: #E8D4E6;
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    width: 90%; 
+    max-width: 300px; 
+    margin: 20px auto; 
+  }
+  label, #output, #detailedCost, button, input, select { 
+    display: block; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+  label { 
+    margin-top: 20px; 
+    color: #333;
+  }
+  input, select { 
+    padding: 8px; 
+    margin-top: 5px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+  }
+  button { 
+    background-color: #C492B1;
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    margin-top: 20px;
+  }
+  button:hover { 
+    background-color: #A76E94;
+  }
+  #output, #detailedCost { 
+    margin-top: 20px; 
+    padding: 10px; 
+    background-color: #e8f0fe;
+    border: 1px solid #b6d4fe; 
+    border-radius: 4px; 
+    color: #333;
+  }
+  .cost-item { 
+    margin-top: 5px; 
+  }
+  .max-songs { 
+    color: #555; 
+    font-size: 0.9em; 
+    margin-top: 5px;
+  }
+  .error-message {
+    color: #D8000C; /* Red color for error messages */
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .container {
+      width: 100%;
+      padding: 10px;
+    }
+    body {
+      padding: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pricing Calculator</h2>
+
+    <label for="format">Select format:</label>
+    <select id="format" onchange="updateMaxSongs(); calculatePrice();">
+      <option value="vinyl">Vinyl</option>
+      <option value="cd">CD</option>
+    </select>
+
+    <label for="numSongs">Number of songs:</label>
+    <input type="number" id="numSongs" min="1" max="18" value="1" oninput="checkMaxSongs()">
+    <div class="max-songs" id="maxSongsInfo"></div>
+    <div class="error-message" id="error-message"></div>
+
+    <div id="detailedCost"></div>
+    <div id="output">Total Price: $0.00</div>
+  </div>
+  <script>
+    function calculatePrice() {
+      const format = document.getElementById('format').value;
+      const basePrice = format === 'vinyl' ? 40 : 4;
+      const numSongs = parseInt(document.getElementById('numSongs').value);
+      let songCosts = [];
+      let totalSongPrice = numSongs * 0.50;
+      songCosts.push(`${numSongs} songs x $0.50 = $${totalSongPrice.toFixed(2)}`);
+  
+      const shippingFee = 5;
+      const totalPrice = basePrice + totalSongPrice + shippingFee;
+      document.getElementById('output').innerText = `Estimated Total Price: $${totalPrice.toFixed(2)}`;
+      displayDetailedCosts(basePrice, songCosts, shippingFee);
+    }
+  
+    function displayDetailedCosts(basePrice, songCosts, shippingFee) {
+      const costDetail = document.getElementById('detailedCost');
+      costDetail.innerHTML = `<div class='cost-item'>Base price: $${basePrice.toFixed(2)}</div>`;
+      songCosts.forEach(cost => {
+        costDetail.innerHTML += `<div class='cost-item'>${cost}</div>`;
+      });
+      costDetail.innerHTML += `<div class='cost-item'>Estimated Shipping Fee: $${shippingFee.toFixed(2)}</div>`;
+    }
+  
+    function updateMaxSongs() {
+      const format = document.getElementById('format').value;
+      const numSongsInput = document.getElementById('numSongs');
+      const maxSongsInfo = document.getElementById('maxSongsInfo');
+      const maxSongs = format === 'vinyl' ? 18 : 20;
+      numSongsInput.max = maxSongs;
+      maxSongsInfo.textContent = format === 'vinyl' ? 'Vinyl can have up to 18 songs.' : 'CD can have up to 20 songs.';
+      checkMaxSongs();
+    }
+  
+    function checkMaxSongs() {
+      const numSongsInput = document.getElementById('numSongs');
+      const max = parseInt(numSongsInput.max);
+      const current = parseInt(numSongsInput.value);
+      const errorMessage = document.getElementById('error-message');
+  
+      if (current > max) {
+        numSongsInput.value = max;
+        errorMessage.textContent = `The maximum number of songs for the selected format is ${max}.`;
+      } else if (current < 1) {
+        numSongsInput.value = 1;
+        errorMessage.textContent = `Please enter at least one song.`;
+      } else {
+        errorMessage.textContent = '';
+      }
+  
+      calculatePrice();
+    }
+  
+    window.onload = function() {
+      updateMaxSongs();
+    };
+  </script>
+</body>
+</html>
