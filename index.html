@@ -6,26 +6,20 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bernard+MT+Condensed&display=swap');
 
-  html, body {
-    height: 100%; /* Ensure that the body takes full viewport height */
-    margin: 0;
-    padding: 0; /* Remove padding to use the full screen */
-  }
   body { 
     font-family: 'Bernard MT Condensed', sans-serif;
+    padding: 20px; 
     background-color: #B2A4D4;
+    margin: 0;
   }
   .container { 
     background: #E8D4E6;
-    padding: 10px; /* Reduced padding */
-    border-radius: 0; /* Remove border radius for full width */
-    box-shadow: none; /* Optional: remove box shadow for a flat design */
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center contents vertically */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    width: 90%; 
+    max-width: 300px; 
+    margin: 20px auto; 
   }
   label, #output, #detailedCost, button, input, select { 
     display: block; 
@@ -33,29 +27,29 @@
     box-sizing: border-box;
   }
   label { 
-    margin-top: 10px; /* Reduce margin */
+    margin-top: 20px; 
     color: #333;
   }
   input, select { 
     padding: 8px; 
     margin-top: 5px; 
     border: 1px solid #ddd; 
-    border-radius: 4px;
+    border-radius: 4px; 
   }
   button { 
     background-color: #C492B1;
     color: white; 
-    padding: 12px 20px; /* Larger padding for better touch target */
+    padding: 10px 20px; 
     border: none; 
     border-radius: 4px; 
     cursor: pointer; 
-    margin-top: 10px;
+    margin-top: 20px;
   }
   button:hover { 
     background-color: #A76E94;
   }
   #output, #detailedCost { 
-    margin-top: 10px; 
+    margin-top: 20px; 
     padding: 10px; 
     background-color: #e8f0fe;
     border: 1px solid #b6d4fe; 
@@ -65,20 +59,33 @@
   .cost-item { 
     margin-top: 5px; 
   }
-  .max-songs, .error-message { 
+  .max-songs { 
     color: #555; 
     font-size: 0.9em; 
     margin-top: 5px;
   }
   .error-message {
     color: #D8000C; /* Red color for error messages */
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .container {
+      width: 100%;
+      padding: 10px;
+    }
+    body {
+      padding: 10px;
+    }
   }
 </style>
 </head>
 <body>
   <div class="container">
     <h2>Pricing Calculator</h2>
-    <!-- Elements like select, input, etc., are unchanged -->
+
     <label for="format">Select format:</label>
     <select id="format" onchange="updateMaxSongs(); calculatePrice();">
       <option value="vinyl">Vinyl</option>
