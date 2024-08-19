@@ -119,7 +119,7 @@
       let totalSongPrice = numSongs * 0.50;
       songCosts.push(`${numSongs} songs x $0.50 = $${totalSongPrice.toFixed(2)}`);
   
-      const shippingFee = 11;
+      const shippingFee = 5;
       const totalPrice = basePrice + totalSongPrice + shippingFee;
       document.getElementById('output').innerText = `Estimated Total Price: $${totalPrice.toFixed(2)}`;
       displayDetailedCosts(basePrice, songCosts, shippingFee);
